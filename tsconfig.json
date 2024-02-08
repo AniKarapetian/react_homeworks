@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "es6",
+    "jsx": "react",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "nodenext"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
