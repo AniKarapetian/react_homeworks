@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import todosReducer from './todo/todo-slice';
 import loginReducer from './login/login-slice';
 import userReducer from './user/user-slice';
+import weatherReducer from './weather/weather-slice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './type';
 
@@ -10,6 +11,7 @@ const store = configureStore({
     todos: todosReducer,
     login: loginReducer,
     users: userReducer,
+    weather: weatherReducer,
   },
 });
 

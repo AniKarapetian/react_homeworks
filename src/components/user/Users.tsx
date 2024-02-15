@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import { UserData } from "../../types";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
+import { UserData } from "../../types/types";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../store/user/user-selector";
 import classes from "./style.module.css";
@@ -60,7 +60,7 @@ export const User: FC = () => {
     removeUser(id);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   return (

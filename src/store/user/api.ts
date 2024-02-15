@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { UserData } from "../../types";
+import { UserData } from "../../types/types";
 const url = 'http://localhost:8080/users';
 
 export default {

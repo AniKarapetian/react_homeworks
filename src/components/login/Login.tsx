@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { LoginData } from "../../types";
+import React, { ChangeEvent, useState } from "react";
+import { LoginData } from "../../types/types";
 import { login } from "../../store/login/login-slice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ const Login: React.FC = () => {
     navigate("/");
     setError("");
   };
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   return (

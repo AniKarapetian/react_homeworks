@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type UserData = {
   id: string;
   name: string;
@@ -18,4 +20,11 @@ export type Todo = {
 export type LoginData = {
   email: string;
   password: string;
+}
+
+export type RouteType = {
+  name: string;
+  path: string;
+  type: string;
+  Component: React.FC;
 }

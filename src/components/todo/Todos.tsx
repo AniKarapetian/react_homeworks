@@ -3,14 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { addTodo, toggleTodo } from "../../store/todo/todo-slice";
 import { todoSelector } from "../../store/todo/todo-selector";
 import { fetchTodos } from "./actions";
+import { AppDispatch } from "../../store/type";
 
 const Todo: React.FC = () => {
   const todos = useSelector(todoSelector);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [text, setText] = useState("");
 
   useEffect(() => {
-    dispatch(fetchTodos() as any);
+    dispatch(fetchTodos());
   }, [dispatch]);
 
   const handleAddTodo = () => {

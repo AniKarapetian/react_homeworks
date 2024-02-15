@@ -1,4 +1,4 @@
-import { UserData } from "../../types";
+import { UserData } from "../../types/types";
 import api from "./api";
 import { addUser, deleteUser, editUser, getUsers } from "./user-slice";
 import store from "..";
