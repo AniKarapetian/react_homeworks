@@ -28,3 +28,12 @@ export type RouteType = {
   type: string;
   Component: React.FC;
 }
+
+export type ChunkInfo={
+  chunkId: number;
+  data: Blob;
+}
+
+export type ItemType<T>={
+  item: T
+}

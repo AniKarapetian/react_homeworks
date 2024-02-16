@@ -1,8 +1,9 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { WeatherData, WeatherResponse } from '../../components/weather/weather.type';
+import { WeatherResponse } from '../../components/weather/weather.type';
 
 const apiKey = 'efd7b7452732382b5f3424e56caf9ccc';
+//process.env.WEATHER_API_KEY || 
 
 export const fetchWeather = createAsyncThunk(
   'weather/fetchWeather',
