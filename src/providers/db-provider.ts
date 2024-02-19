@@ -1,23 +1,14 @@
+import { DB_NAME, DB_VERSION, STORE_NAME } from "../constants";
 import { ChunkInfo, ItemType } from "../types/types";
 
 export class DBConnection {
-    dbName: string;
-    version: number;
-    storeName: string;
-    db: IDBDatabase|null;
-    constructor(dbName:string, version:number, storeName: string) {
-      this.dbName = dbName;
-      this.version = version;
-      this.storeName = storeName;
-      this.db = null;
-    }
-  
+    db: IDBDatabase|null = null;
     async connect() {
         if (this.db){
             return this.db;
         }
       return new Promise((resolve, reject) => {
-        const request = indexedDB.open(this.dbName, this.version);
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
   
         request.onerror = ({target}) => {
           reject(`Failed to open database: ${(target as IDBOpenDBRequest).error}`);
@@ -30,19 +21,19 @@ export class DBConnection {
   
         request.onupgradeneeded = ({target}) => {
           const db = (target as IDBOpenDBRequest).result;
-          if (!db.objectStoreNames.contains(this.storeName)) {
-            db.createObjectStore(this.storeName, { autoIncrement: true });
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { autoIncrement: true });
           }
         };
       });
     }
   
   
-    async getAll() {
+    async getAll(storeName:string) {
       return new Promise((resolve, reject) => {
         if (!this.db){return}
-        const transaction = this.db.transaction([this.storeName], "readonly");
-        const objectStore = transaction.objectStore(this.storeName);
+        const transaction = this.db.transaction([storeName], "readonly");
+        const objectStore = transaction.objectStore(storeName);
         const request = objectStore.getAll();
   
         request.onsuccess = () => {
@@ -54,12 +45,29 @@ export class DBConnection {
         };
       });
     }
+
+    async clearStore(storeName:string) {
+      return new Promise((resolve, reject) => {
+        if (!this.db){return}
+        const transaction = this.db.transaction([storeName], "readwrite");
+        const objectStore = transaction.objectStore(storeName);
+        const request = objectStore.clear();
   
-    async addItem<T>(item: T) {
+        request.onsuccess = () => {
+          resolve(request.result);
+        };
+  
+        request.onerror = ({target}) => {
+          reject(`Failed to get all data: ${(target as IDBOpenDBRequest).error}`);
+        };
+      });
+    }
+  
+    async addItem<T>(item: T, storeName: string) {
       if (!this.db){return};
       return new Promise((resolve, reject) => {
-        const transaction = this.db!.transaction([this.storeName], "readwrite");
-        const objectStore = transaction.objectStore(this.storeName);
+        const transaction = this.db!.transaction([storeName], "readwrite");
+        const objectStore = transaction.objectStore(storeName);
         const request = objectStore.add(item);
   
         request.onsuccess = () => {
@@ -75,10 +83,6 @@ export class DBConnection {
   }
   
 
-//  export  const db = new DBConnection("test-db", 1, "myStore");
- export  const db = new DBConnection("myDb", 1, "recordings"); 
- //ամեն անգամ նոր դբ է սարքում
-
- //create recording provider
+ export  const db = new DBConnection(); 
 
  

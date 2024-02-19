@@ -1,15 +1,13 @@
 import React, { FC } from "react";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "../home/Home";
 
-import { useSelector } from "react-redux";
-import { loginSelector } from "../../store/login/login-selector";
 import { routes } from "../../route/routes";
 import MenuNavbar from "../navbar/Navbar";
 import { Container } from "react-bootstrap";
+import Login from "../login/Login";
 
 const App: FC = () => {
-  const isLoggedIn = useSelector(loginSelector);
   return (
     <BrowserRouter>
       <MenuNavbar />
@@ -20,6 +18,7 @@ const App: FC = () => {
           })}
 
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="*" element={<div>Not found</div>} />
         </Routes>
       </Container>

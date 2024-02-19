@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SharedState = {
   micInfo: {
-    mics: MediaDeviceInfo[],
+    mics: (MediaDeviceInfo| InputDeviceInfo)[],
     selectedMic: MediaDeviceInfo | null,
   };
   cameraInfo: {
-    cameras: MediaDeviceInfo[],
+    cameras: (MediaDeviceInfo| InputDeviceInfo)[],
     selectedCamera: MediaDeviceInfo | null,
   };
   speakerInfo: {
@@ -33,20 +33,21 @@ const initialState: SharedState = {
 const sharedSlice = createSlice({
   name: 'shared',
   initialState,
+  
   reducers: {
-    setMics(state, action) {
+    setMics(state, action:PayloadAction<MediaDeviceInfo[]>) {
       state.micInfo.mics = action.payload;
     },
-    setSelectedMic(state, action) {
-      state.micInfo.selectedMic = action.payload;
+    setSelectedMic(state, action: PayloadAction<string>) {
+      state.micInfo.selectedMic = state.micInfo.mics.find((mic)=>mic.deviceId===action.payload) || null;
     },
-    setCameras(state, action) {
+    setCameras(state, action:PayloadAction<MediaDeviceInfo[]>) {
       state.cameraInfo.cameras = action.payload;
     },
-    setSelectedCamera(state, action) {
-      state.cameraInfo.selectedCamera = action.payload;
+    setSelectedCamera(state, action: PayloadAction<string>) {
+      state.cameraInfo.selectedCamera = state.cameraInfo.cameras.find((camera)=>camera.deviceId===action.payload) || null;
     },
-    setSpeakers(state, action) {
+    setSpeakers(state, action:PayloadAction<MediaDeviceInfo[]>) {
       state.speakerInfo.speakers = action.payload;
     },
     setSelectedSpeaker(state, action) {

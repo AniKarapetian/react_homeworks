@@ -1,5 +1,4 @@
 class StreamProvider {
-
   stream: MediaStream | null = null;
 
   private async createStream(mic: MediaDeviceInfo, camera: MediaDeviceInfo) {
@@ -9,7 +8,11 @@ class StreamProvider {
     });
   }
 
-  async startStream(mic: MediaDeviceInfo | null, camera: MediaDeviceInfo | null) {
+  async startStream(
+    mic: MediaDeviceInfo | null,
+    camera: MediaDeviceInfo | null
+  ) {
+
     if (this.stream) {
       this.stopStream();
     }
@@ -20,15 +23,17 @@ class StreamProvider {
   }
 
   stopStream() {
-    console.log('this.stream', this.stream);
     if (this.stream) {
-      this.stream.getTracks().forEach(track => track.stop());
+      this.stream.getTracks().forEach((track) => track.stop());
       this.stream = null;
     }
   }
 
-  async getStream(){
-return await navigator.mediaDevices.getUserMedia({video: true, audio:true})
+  async getStream() {
+    return await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    });
   }
 }
 

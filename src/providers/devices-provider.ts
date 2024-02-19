@@ -1,10 +1,13 @@
+
+import { setDevices } from "./helpers";
+
 class DevicesProvider {
 
   private isRequested: boolean = false;
 
   constructor() {
     navigator.mediaDevices.ondevicechange = () => {
-
+      this.getDevices();
     };
   }
 
@@ -20,7 +23,7 @@ class DevicesProvider {
     }
 
     navigator.mediaDevices.enumerateDevices().then(devices => {
-      console.log(devices);
+     setDevices(devices);
     });
   }
 }

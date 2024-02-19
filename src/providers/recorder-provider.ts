@@ -1,6 +1,7 @@
+import { CHUNK_DURATION, STORE_NAME } from "../constants";
 import { db } from "./db-provider";
 
-const CHUNK_DURATION = 3000;
+
 
 class RecorderProvider {
   private recorder: MediaRecorder | null = null;
@@ -18,7 +19,7 @@ class RecorderProvider {
       db.addItem({
         chunkId: this.chunkId++,
         data: event.data,
-      }).then(() => {
+      }, STORE_NAME).then(() => {
         console.log(`Chunk with ${this.chunkId} id was added.`);
       });
     };
