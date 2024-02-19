@@ -1,24 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserData } from "../../types/types";
 
-const initialState: UserData[]=[];
+const initialState: {users: UserData[]}={
+    users: [],
+};
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers:{
     addUser(state, action: PayloadAction<UserData>){
-        state.push(action.payload);
+        state.users.push(action.payload);
     },
     editUser(state, action: PayloadAction<UserData>){
-        const userIndex = state.findIndex((user) => user.id === action.payload.id);
-        state[userIndex] = action.payload;
+        const userIndex = state.users.findIndex((user) => user.id === action.payload.id);
+        state.users[userIndex] = action.payload;
     },
     deleteUser(state, action: PayloadAction<string>){
-       return  state.filter((user)=>user.id !==action.payload);
+        const userIndex = state.users.findIndex((user) => user.id === action.payload);
+      state.users.splice(userIndex,1);
     },
 
-    getUsers(_, action: PayloadAction<UserData[]>){
-        return action.payload;
+    getUsers(state, action: PayloadAction<UserData[]>){
+       state.users = action.payload;
     }
     }
 });

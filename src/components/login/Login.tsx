@@ -1,7 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
 import { LoginData } from "../../types/types";
-import { login } from "../../store/login/login-slice";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../../store/login/actions";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -10,7 +8,6 @@ import Form from "react-bootstrap/Form";
 import { Button, Container } from "react-bootstrap";
 
 const Login: React.FC = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState<LoginData>({
     email: "",

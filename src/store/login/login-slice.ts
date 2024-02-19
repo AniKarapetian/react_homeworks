@@ -1,22 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LoginData } from '../../types/types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserData } from "../../types/types";
 
-
-const initialState: {isLoggedIn:boolean} = {isLoggedIn: false};
+const loggedInUser = localStorage.getItem("user"); 
+const initialState: { isLoggedIn: boolean; user: UserData | null } = {
+  isLoggedIn:!!loggedInUser,
+  user: loggedInUser ? JSON.parse(loggedInUser) : null,
+};
 
 const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState,
   reducers: {
-     login(state, action: PayloadAction<boolean>) {
-      state.isLoggedIn = action.payload;
-      },
-   
-   
+    login(state, action: PayloadAction<UserData>) {
+      state.isLoggedIn = true;
+      state.user = action.payload;
+    },
+    logout(state) {
+      state.isLoggedIn = false;
+      state.user = null;
+    },
   },
 });
 
-export const { login } = loginSlice.actions;
-
+export const { login, logout } = loginSlice.actions;
 
 export default loginSlice.reducer;
