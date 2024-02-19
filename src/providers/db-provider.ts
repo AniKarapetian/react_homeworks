@@ -29,15 +29,15 @@ export class DBConnection {
     }
   
   
-    async getAll(storeName:string) {
+    async getAll<T>(storeName:string):Promise<T> {
       return new Promise((resolve, reject) => {
         if (!this.db){return}
         const transaction = this.db.transaction([storeName], "readonly");
         const objectStore = transaction.objectStore(storeName);
-        const request = objectStore.getAll();
+        const request= objectStore.getAll();
   
         request.onsuccess = () => {
-          resolve(request.result);
+          resolve(request.result as T);
         };
   
         request.onerror = ({target}) => {
@@ -63,7 +63,7 @@ export class DBConnection {
       });
     }
   
-    async addItem<T>(item: T, storeName: string) {
+    async addItem<T>(item: T, storeName: string): Promise<T|undefined> {
       if (!this.db){return};
       return new Promise((resolve, reject) => {
         const transaction = this.db!.transaction([storeName], "readwrite");
@@ -71,7 +71,7 @@ export class DBConnection {
         const request = objectStore.add(item);
   
         request.onsuccess = () => {
-          resolve(request.result);
+          resolve(request.result as T);
         };
   
         request.onerror = ({target}) => {
