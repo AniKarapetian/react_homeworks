@@ -1,16 +1,19 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  WeatherQuery,
+  WeatherResponse,
+} from "../../components/weather/weather.type";
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { WeatherResponse } from '../../components/weather/weather.type';
-
-const apiKey = 'efd7b7452732382b5f3424e56caf9ccc';
-//process.env.WEATHER_API_KEY || 
+const apiKey = "efd7b7452732382b5f3424e56caf9ccc";
+//process.env.WEATHER_API_KEY ||
 
 export const fetchWeather = createAsyncThunk(
-  'weather/fetchWeather',
-  async (city:string, { rejectWithValue }) => {
+  "weather/fetchWeather",
+  async (query: WeatherQuery, { rejectWithValue }) => {
     try {
-
-      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`
+      const apiUrl = query.city
+        ? `https://api.openweathermap.org/data/2.5/forecast?q=${query.city}&appid=${apiKey}`
+        : `https://api.openweathermap.org/data/2.5/forecast?lat=${query.latitude}&lon=${query.longitude}&appid=${apiKey}`;
       const response = await fetch(apiUrl);
       const data = await response.json();
       return data;
@@ -20,26 +23,26 @@ export const fetchWeather = createAsyncThunk(
   }
 );
 
-const initialState : WeatherResponse = {
-    data: {},
-    loading: false,
-    error: '',
-  }
+const initialState: WeatherResponse = {
+  data: {},
+  loading: false,
+  error: "",
+};
 
 const weatherSlice = createSlice({
-  name: 'weather',
+  name: "weather",
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchWeather.pending, state => {
+      .addCase(fetchWeather.pending, (state) => {
         state.loading = true;
-        state.error = '';
+        state.error = "";
       })
       .addCase(fetchWeather.fulfilled, (state, action) => {
         state.loading = false;
-        if(action.payload.cod == 404){
-            state.error = action.payload.message;
+        if (action.payload.cod == 404) {
+          state.error = action.payload.message;
         }
         state.data = action.payload;
       })

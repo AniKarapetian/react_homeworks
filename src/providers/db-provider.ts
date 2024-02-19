@@ -55,7 +55,7 @@ export class DBConnection {
       });
     }
   
-    async addItem(item: ChunkInfo) {
+    async addItem<T>(item: T) {
       if (!this.db){return};
       return new Promise((resolve, reject) => {
         const transaction = this.db!.transaction([this.storeName], "readwrite");
@@ -76,4 +76,9 @@ export class DBConnection {
   
 
 //  export  const db = new DBConnection("test-db", 1, "myStore");
- export  const db = new DBConnection("myDb", 1, "recordings");
+ export  const db = new DBConnection("myDb", 1, "recordings"); 
+ //ամեն անգամ նոր դբ է սարքում
+
+ //create recording provider
+
+ 

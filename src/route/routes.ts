@@ -46,13 +46,14 @@ export const routes: RouteType[] = [
         path: '/users',
         name: 'Users'
         
-    },
-    {
-        type: 'private',
-        Component: Login,
-        path: '/login',
-        name: 'Login'
     }
+    // ,
+    // {
+    //     type: 'private',
+    //     Component: Login,
+    //     path: '/login',
+    //     name: 'Login'
+    // }
     // ,
     // {
     //     type: 'public',

@@ -4,6 +4,10 @@ import { login } from "../../store/login/login-slice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../../store/login/actions";
+import InputGroup from "react-bootstrap/InputGroup";
+import Form from "react-bootstrap/Form";
+
+import { Button, Container } from "react-bootstrap";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -37,33 +41,33 @@ const Login: React.FC = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   return (
-    <div>
+    <Container>
       <h2>Login</h2>
       {error && <div style={{ color: "red" }}>{error}</div>}
-      <form>
-        <div>
-          <label>Email:</label>
-          <input
+      <Form>
+        <InputGroup className="mb-3">
+          <InputGroup.Text>Username</InputGroup.Text>
+          <Form.Control
             type="email"
-            name="email"
             value={data.email}
+            name="email"
             onChange={handleChange}
           />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
+        </InputGroup>
+        <InputGroup className="mb-3">
+          <InputGroup.Text>Password</InputGroup.Text>
+          <Form.Control
             type="password"
-            name="password"
             value={data.password}
+            name="password"
             onChange={handleChange}
           />
-        </div>
-        <button type="button" onClick={handleLogin}>
+        </InputGroup>
+        <Button type="button" onClick={handleLogin} variant="success">
           Login
-        </button>
-      </form>
-    </div>
+        </Button>
+      </Form>
+    </Container>
   );
 };
 
