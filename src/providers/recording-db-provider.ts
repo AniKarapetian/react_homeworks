@@ -4,13 +4,17 @@ import { db } from "./db-provider";
 
 class RecordingDBProvider {
 
-  getItems(): Promise<ChunkInfo[] | undefined> {
-    return db.getAll(STORE_NAME);
+   getItems(): Promise<ChunkInfo[]> {
+    return  db.getAll(STORE_NAME);
   }
 
-  async addItem(chunk: ChunkInfo
+   addItem(chunk: ChunkInfo
     ): Promise<ChunkInfo | undefined> {
     return db.addItem<ChunkInfo>(chunk, STORE_NAME);
+  }
+
+  clearStore(){
+    db.clearStore(STORE_NAME);
   }
 }
 

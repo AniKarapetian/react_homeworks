@@ -20,6 +20,7 @@ import {
   setSelectedCamera,
   setSelectedMic,
 } from "../../store/shared/shared-slice";
+import { recordingDBProvider } from "../../providers/recording-db-provider";
 
 type Props = {};
 
@@ -95,7 +96,8 @@ const Stream: FC<Props> = () => {
   };
 
   const onDownload = async () => {
-    const chunks: ChunkInfo[] = (await db.getAll(STORE_NAME)) as ChunkInfo[];
+    const chunks: ChunkInfo[] =
+      (await recordingDBProvider.getItems()) as ChunkInfo[];
     const blob = new Blob(
       chunks.map((chunk) => chunk.data),
       { type: "video/webm" }
@@ -107,7 +109,7 @@ const Stream: FC<Props> = () => {
     a.download = "recording.webm";
     a.click();
 
-    await db.clearStore(STORE_NAME);
+    recordingDBProvider.clearStore();
   };
 
   const onMicChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -128,6 +130,18 @@ const Stream: FC<Props> = () => {
           />
         )}
         <video ref={videoRef} className="mt-3"></video>
+        {isRecording && (
+          <img
+            src="https://i.gifer.com/XVo3.gif"
+            alt=""
+            style={{
+              position: "relative",
+              bottom: "92%",
+              left: "90%",
+              width: "50px",
+            }}
+          />
+        )}
       </div>
       <div>
         <InputGroup className="mt-3">
@@ -154,7 +168,9 @@ const Stream: FC<Props> = () => {
           <Button onClick={toggleRecording}>
             {isRecording ? "Stop" : "Start"} recording
           </Button>
-          <Button onClick={onDownload}>Download recording</Button>
+          {!isRecording && (
+            <Button onClick={onDownload}>Download recording</Button>
+          )}
         </div>
       </div>
     </div>
