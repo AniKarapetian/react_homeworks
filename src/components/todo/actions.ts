@@ -1,6 +1,6 @@
 import { setTodos } from "../../store/todo/todo-slice";
 import { AppThunk } from "../../store/type";
-import { Todo } from "../../types";
+import { Todo } from "../../types/types";
 
 export const fetchTodos = (): AppThunk => async (dispatch) => {
     try {

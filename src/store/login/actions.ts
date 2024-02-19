@@ -1,5 +1,5 @@
-import store from "..";
-import { UserData } from "../../types";
+import store from "../store";
+import { UserData } from "../../types/types";
 import api from "../user/api";
 import { login } from "./login-slice";
 

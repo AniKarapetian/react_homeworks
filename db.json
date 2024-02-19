@@ -1,13 +1,6 @@
 {
   "users": [
     {
-      "id": "1707407168498",
-      "email": "ddd@hjgjg.ll",
-      "name": "dede",
-      "age": "4",
-      "lastname": "jhhk"
-    },
-    {
       "id": "1707407227664",
       "email": "test@test.com",
       "name": "gjhghj",
@@ -28,6 +21,13 @@
       "lastname": "User",
       "password": "1234",
       "age": "10"
+    },
+    {
+      "id": "1708176908049",
+      "email": "test@test.com",
+      "name": "Ani",
+      "lastname": "Karapetyan",
+      "age": "30"
     }
   ]
 }

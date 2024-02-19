@@ -1,0 +1,34 @@
+.cityInput{
+    height: 25px;
+    width: 50%;
+    box-shadow: 2px 2px lightgray;
+}
+
+.container {
+    margin: 10px;
+    text-align: center;
+}
+
+.searchBtn{
+    height: 38px;
+    margin-left: 5px;
+   
+}
+
+.txt{
+    color:  #a88420;
+    font-size: 25px;
+}
+
+.errorTxt{
+    color:  red;
+    font-size: 20px;
+}
+
+.cardHeader{
+    box-shadow: 3px 3px lightgray;
+    padding: 5px;
+    width: 50%;
+    margin: 5px;
+    border: 1px solid gray;
+}
