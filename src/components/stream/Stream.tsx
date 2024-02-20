@@ -35,6 +35,7 @@ const Stream: FC<Props> = () => {
   const mics = useSelector(micsSelector);
 
   const [isRecording, setIsRecording] = useState(false);
+  const [isAvailableDownload, setIsAvailableDownload] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -43,19 +44,14 @@ const Stream: FC<Props> = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedMic && selectedCamera) {
+    if (selectedMic && selectedCamera && videoRef.current) {
       startStream();
     }
 
-    return streamProvider.stopStream;
-  }, [selectedMic, selectedCamera]);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      startStream();
-    }
-    // return streamProvider.stopStream;
-  }, [videoRef.current]);
+    return () => {
+      streamProvider.stopStream();
+    };
+  }, [selectedMic, selectedCamera, videoRef.current]);
 
   const startStream = async () => {
     setIsLoading(true);
@@ -86,6 +82,7 @@ const Stream: FC<Props> = () => {
     try {
       if (isRecording) {
         recorderProvider.stop();
+        setIsAvailableDownload(true);
       } else {
         const stream = await streamProvider.getStream();
         recorderProvider.start(stream);
@@ -110,6 +107,7 @@ const Stream: FC<Props> = () => {
     a.click();
 
     recordingDBProvider.clearStore();
+    setIsAvailableDownload(false);
   };
 
   const onMicChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -126,7 +124,12 @@ const Stream: FC<Props> = () => {
           <img
             src="https://i.gifer.com/ZKZg.gif"
             alt="loading"
-            style={{ height: "450px" }}
+            style={{
+              height: "150px",
+              position: "fixed",
+              left: "25%",
+              bottom: "60%",
+            }}
           />
         )}
         <video ref={videoRef} className="mt-3"></video>
@@ -165,10 +168,12 @@ const Stream: FC<Props> = () => {
           </Form.Select>
         </InputGroup>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button onClick={toggleRecording}>
-            {isRecording ? "Stop" : "Start"} recording
-          </Button>
-          {!isRecording && (
+          {!isLoading && (
+            <Button onClick={toggleRecording}>
+              {isRecording ? "Stop" : "Start"} recording
+            </Button>
+          )}
+          {!isLoading && !isRecording && isAvailableDownload && (
             <Button onClick={onDownload}>Download recording</Button>
           )}
         </div>
