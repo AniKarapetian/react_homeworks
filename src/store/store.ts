@@ -15,6 +15,7 @@ const store = configureStore({
     weather: weatherReducer,
     shared: sharedReducer,
   },
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(timeMiddleware),
 });
 
 export default store;

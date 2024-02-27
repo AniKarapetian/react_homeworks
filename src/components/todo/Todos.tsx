@@ -20,6 +20,7 @@ const Todo: React.FC = () => {
   const handleAddTodo = () => {
     if (text.trim() !== "") {
       dispatch(addTodo(text));
+
       setText("");
     }
   };
