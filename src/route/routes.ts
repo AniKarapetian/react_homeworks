@@ -1,3 +1,4 @@
+import ChatComponent from "../components/chat/Chat";
 import { Home } from "../components/home/Home";
 import Stream from "../components/stream/Stream";
 import Todo from "../components/todo/Todos";
@@ -35,5 +36,11 @@ export const routes: RouteType[] = [
     Component: User,
     path: "/users",
     name: "Users",
+  },
+  {
+    type: "private",
+    Component: ChatComponent,
+    path: "/chat",
+    name: "Chat",
   }
 ];

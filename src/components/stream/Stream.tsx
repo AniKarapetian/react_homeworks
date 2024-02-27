@@ -79,16 +79,12 @@ const Stream: FC<Props> = () => {
 
   const toggleRecording = async () => {
     setIsRecording((prevIsRecording) => !prevIsRecording);
-    try {
-      if (isRecording) {
-        recorderProvider.stop();
-        setIsAvailableDownload(true);
-      } else {
-        const stream = await streamProvider.getStream();
-        recorderProvider.start(stream);
-      }
-    } catch (error) {
-      console.error("Error toggling recording:", error);
+    if (isRecording) {
+      recorderProvider.stop();
+      setIsAvailableDownload(true);
+    } else {
+      const stream = await streamProvider.getStream();
+      recorderProvider.start(stream);
     }
   };
 

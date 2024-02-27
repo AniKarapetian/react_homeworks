@@ -1,26 +1,21 @@
 {
   "users": [
-    {
-      "id": "1707407738554",
-      "email": "ak.web.master00+ka@gmail.com",
-      "name": "grg",
-      "lastname": "gfg",
-      "age": "2"
-    },
+   
     {
       "id": "1707407787576",
-      "email": "test@test.com",
-      "name": "Test",
-      "lastname": "User",
+      "email": "john@test.com",
+      "name": "John",
+      "lastname": "Doe",
       "password": "1234",
-      "age": "10"
+      "age": 10
     },
     {
       "id": "1708342082783",
-      "email": "ak.web.master00+ka@gmail.com",
-      "name": "gfdg",
-      "lastname": "grg",
-      "age": 0
+      "email": "adam@test.com",
+      "name": "Adam",
+      "lastname": "Smith",
+      "password": "1234",
+      "age": 15
     }
   ]
 }

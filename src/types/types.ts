@@ -37,3 +37,11 @@ export type ChunkInfo={
 export type ItemType<T>={
   item: T
 }
+
+
+export interface Message{
+  text: string;
+  date: number;
+  senderId: string;
+  receiverId: string;
+}
