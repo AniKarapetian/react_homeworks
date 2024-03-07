@@ -4,6 +4,7 @@ import loginReducer from './login/login-slice';
 import userReducer from './user/user-slice';
 import weatherReducer from './weather/weather-slice';
 import sharedReducer from './shared/shared-slice';
+import chatReducer from './chat/chat-slice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './type';
 
@@ -14,6 +15,7 @@ const store = configureStore({
     users: userReducer,
     weather: weatherReducer,
     shared: sharedReducer,
+    chat: chatReducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(timeMiddleware),
 });

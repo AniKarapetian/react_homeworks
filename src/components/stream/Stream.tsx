@@ -14,7 +14,7 @@ import { devicesProvider } from "../../providers/devices-provider";
 import { db } from "../../providers/db-provider";
 import recorderProvider from "../../providers/recorder-provider";
 import { ChunkInfo } from "../../types/types";
-import { STORE_NAME } from "../../constants";
+import { STORE_NAME } from "../../constants/constants";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import {
   setSelectedCamera,

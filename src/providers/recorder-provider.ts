@@ -1,7 +1,5 @@
-import { CHUNK_DURATION, STORE_NAME } from "../constants";
+import { CHUNK_DURATION, STORE_NAME } from "../constants/constants";
 import { db } from "./db-provider";
-
-
 
 class RecorderProvider {
   private recorder: MediaRecorder | null = null;
@@ -16,10 +14,13 @@ class RecorderProvider {
 
     this.recorder.ondataavailable = (event: BlobEvent) => {
       console.log("Data available");
-      db.addItem({
-        chunkId: this.chunkId++,
-        data: event.data,
-      }, STORE_NAME).then(() => {
+      db.addItem(
+        {
+          chunkId: this.chunkId++,
+          data: event.data,
+        },
+        STORE_NAME
+      ).then(() => {
         console.log(`Chunk with ${this.chunkId} id was added.`);
       });
     };
@@ -39,6 +40,5 @@ class RecorderProvider {
   }
 }
 
-
- const recorderProvider = new RecorderProvider();
- export default recorderProvider;
+const recorderProvider = new RecorderProvider();
+export default recorderProvider;

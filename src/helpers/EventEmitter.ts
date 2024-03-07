@@ -1,14 +1,6 @@
-type Listener = {
-  id: string;
-  cb: Function;
-}
-
-type ListenerInfo = {
-  [key: string]: Listener[];
-}
+import { ListenerInfo } from "./types";
 
 class EventEmitter {
-
   listeners: ListenerInfo = {};
 
   on(event: string, listener: Function) {
@@ -26,13 +18,15 @@ class EventEmitter {
 
   private off(event: string, listenerId: string) {
     if (this.listeners[event]) {
-      this.listeners[event] = this.listeners[event].filter(listener => listener.id !== listenerId);
+      this.listeners[event] = this.listeners[event].filter(
+        (listener) => listener.id !== listenerId
+      );
     }
   }
 
   emit(event: string, data: any) {
     if (this.listeners[event]) {
-      this.listeners[event].forEach(listener => {
+      this.listeners[event].forEach((listener) => {
         listener.cb(data);
       });
     }

@@ -1,6 +1,8 @@
 import { io, Socket } from "socket.io-client";
-import { Message } from "../types/types";
-import { Message_Types } from "../constants";
+import { IMessage } from "../types/types";
+import { Message_Types } from "../constants/constants";
+import store from "../store/store";
+import { addMessage, setMessages } from "../store/chat/chat-slice";
 
 class SocketProvider {
   private socket: Socket | null = null;
@@ -11,15 +13,17 @@ class SocketProvider {
     });
     this.socket.on(Message_Types.NEW_MESSAGE, this.onNewMessage);
     this.socket.on(Message_Types.LOAD_MESSAGES, this.onLoadMessages);
-    console.log('Socket is ready!');
+    console.log("Socket is ready!");
   }
 
-  private onNewMessage(msg: string) {
-    console.log('onNewMessage', msg);
+  private onNewMessage(msg: IMessage) {
+    store.dispatch(addMessage(msg));
+    console.log("onNewMessage", msg);
   }
 
-  private onLoadMessages(msg: string) {
-    console.log("onLoadMessages", msg);
+  private onLoadMessages(list: IMessage[]) {
+    store.dispatch(setMessages(list));
+    console.log("onLoadMessages", list);
   }
 
   public disconnect(): void {
@@ -28,7 +32,7 @@ class SocketProvider {
     }
   }
 
-  public sendMessage(message: Message): void {
+  public sendMessage(message: IMessage): void {
     if (this.socket) {
       this.socket.emit(Message_Types.NEW_MESSAGE, message);
     } else {

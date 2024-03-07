@@ -1,8 +1,7 @@
-import { EventEmitter } from 'stream';
-import { TIME_EVENTS } from '../constants';
+import { EventEmitter } from "stream";
+import { TIME_EVENTS } from "../constants/constants";
 
 class TimeProvider {
-
   time: number = 0;
   eventEmitter: EventEmitter = new EventEmitter();
 
