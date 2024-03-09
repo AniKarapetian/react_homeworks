@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BoardEventTypes } from "../../constants/constants";
-import { enemyBoardProvider } from "../../providers/game-provider/enemy-board-provider";
-import { gameProvider } from "../../providers/game-provider/game-provider";
+import { enemyBoardProvider } from "../../providers/game-providers/enemy-board-provider";
+import { gameProvider } from "../../providers/game-providers/game-provider";
 import { v4 as uuidv4 } from "uuid";
 import Cell from "./cell/Cell";
 export const EnemyBoard = () => {

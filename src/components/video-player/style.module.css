@@ -1,0 +1,22 @@
+.playImg {
+  cursor: pointer;
+  height: 40px;
+}
+.pauseImg {
+  cursor: pointer;
+  height: 22px;
+  margin-left: 10px;
+  margin-right: 8px;
+}
+
+.loadingImg {
+  height: 60px;
+  position: fixed;
+  left: 18%;
+  bottom: 68%;
+}
+.rangeInput {
+  cursor: pointer;
+  width: 200px;
+  margin: 4px;
+}

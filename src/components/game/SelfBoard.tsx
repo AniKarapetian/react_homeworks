@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BoardEventTypes } from "../../constants/constants";
-import { selfBoardProvider } from "../../providers/game-provider/self-board-provider";
+import { selfBoardProvider } from "../../providers/game-providers/self-board-provider";
 import Cell from "./cell/Cell";
 import { v4 as uuidv4 } from "uuid";
 export const SelfBoard = () => {

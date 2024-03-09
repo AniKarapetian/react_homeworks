@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { FC } from "react";
 import { SelfBoard } from "./SelfBoard";
 import { EnemyBoard } from "./EnemyBoard";
-import { gameProvider } from "../../providers/game-provider/game-provider";
+import { gameProvider } from "../../providers/game-providers/game-provider";
 
 const Battleship: FC = () => {
   useEffect(() => {

@@ -5,7 +5,7 @@ import { Home } from "../components/home/Home";
 import Stream from "../components/stream/Stream";
 import Todo from "../components/todo/Todos";
 import { User } from "../components/user/Users";
-import { VideoComponent } from "../components/video-player/VideoComponent";
+import { VideoPlayer } from "../components/video-player/VideoPlayer";
 import Weather from "../components/weather/Weather";
 import { RouteType } from "../types/types";
 
@@ -48,7 +48,7 @@ export const routes: RouteType[] = [
   },
   {
     type: "public",
-    Component: VideoComponent,
+    Component: VideoPlayer,
     path: "/video-player",
     name: "Videoplayer",
   },
