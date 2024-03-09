@@ -14,7 +14,7 @@ export const SelfBoard = () => {
   }, []);
 
   const onClickCell = (i: number, j: number): any => {
-    //set ships
+    console.log("set-ship", i, j);
   };
   return (
     <div>

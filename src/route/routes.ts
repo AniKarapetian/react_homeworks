@@ -1,4 +1,5 @@
 import ChatComponent from "../components/chat/Chat";
+import Chess from "../components/chess/Chess";
 import Battleship from "../components/game/Battleship";
 import { Home } from "../components/home/Home";
 import Stream from "../components/stream/Stream";
@@ -56,5 +57,11 @@ export const routes: RouteType[] = [
     Component: Battleship,
     path: "/battle-ship",
     name: "Battleship",
+  },
+  {
+    type: "public",
+    Component: Chess,
+    path: "/chess",
+    name: "Chess",
   },
 ];

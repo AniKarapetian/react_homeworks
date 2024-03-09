@@ -35,6 +35,7 @@ export const BOARD_VALUES = {
   EMPTY: 0,
   SHIP: 1,
   MISS: 2,
+  HIT: 3,
 };
 
 export const AnswerType = {

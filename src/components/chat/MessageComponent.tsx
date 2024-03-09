@@ -1,26 +1,30 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import classes from "./style.module.css";
 import { IMessage } from "../../types/types";
 interface MessageProps {
   data: IMessage;
-  type: string;
+  userId: string;
 }
 
-const MessageComponent: FC<MessageProps> = ({ data, type }) => {
+const MessageComponent: FC<MessageProps> = ({ data, userId }) => {
+  const [type, setType] = useState("received");
+  const [msgAuthor, setMsgAuthor] = useState<{
+    id?: string;
+    name?: string;
+    lastname?: string;
+  }>({});
+  useEffect(() => {
+    data.sender.id === userId && setType("sent");
+    setMsgAuthor(data.sender);
+  }, [userId]);
   return (
     <div>
       {data && (
         <div className={classes[`${type}-box`]}>
           <span className={classes.info}>
-            {type === "sent" ? (
-              <b>
-                {data.sender.name} {data.sender.lastname}
-              </b>
-            ) : (
-              <b>
-                {data.receiver.name} {data.receiver.lastname}
-              </b>
-            )}
+            <b>
+              {msgAuthor.name} {msgAuthor.lastname}
+            </b>
             {` ${new Date(data.date)}`.substring(-1, 22)}
           </span>
           <p className={classes[type]}>{data.text}</p>

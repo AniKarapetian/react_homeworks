@@ -52,11 +52,7 @@ const ChatComponent: FC = () => {
       {!!messageList.length && !!user && (
         <div className={classes.msgContainer}>
           {messageList.map((msg, index) => (
-            <MessageComponent
-              data={msg}
-              type={msg.sender.id === user.id ? "sent" : "received"}
-              key={index}
-            />
+            <MessageComponent data={msg} userId={user.id} key={index} />
           ))}
         </div>
       )}

@@ -70,8 +70,10 @@ class SelfBoardProvider {
     switch (this.board[i][j]) {
       case BOARD_VALUES.EMPTY:
         answerType = AnswerType.MISS;
+        this.board[i][j] = 2;
         break;
       case BOARD_VALUES.SHIP:
+        this.board[i][j] = 3;
         const hitShip = this.ships.find((ship) =>
           ship.coordinates.some(
             (coord: Coordinate) => coord.row === i && coord.col === j
@@ -90,8 +92,6 @@ class SelfBoardProvider {
         gameProvider.isGameOver();
         break;
     }
-
-    // TODO: rerender this position
 
     signalingProvider.sendMessage(MessageTypes.ANSWER, {
       userId: "user_1",

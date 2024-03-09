@@ -3,7 +3,7 @@ import classes from "./cell.module.css";
 
 type CellProps = {
   data: {
-    value: number;
+    value: number | string;
     x: number;
     y: number;
   };
@@ -17,6 +17,7 @@ const Cell: React.FC<CellProps> = ({ data, onClick }) => {
     "0": "white",
     "1": "blue",
     "2": "black",
+    "3": "red",
   };
   const handleClick = () => {
     onClick && onClick();
@@ -31,7 +32,7 @@ const Cell: React.FC<CellProps> = ({ data, onClick }) => {
     >
       <span
         style={{
-          visibility: "hidden",
+          visibility: data.value == "Q" ? "visible" : "hidden",
         }}
       >
         {data.value}
