@@ -2,6 +2,8 @@ import { FC, useEffect, useState } from "react";
 import classes from "./style.module.css";
 import { formatTime } from "./helper";
 import React from "react";
+import { ControllerIcons } from "./ControllerIcons";
+
 export const VideoController: FC<{ videoRef: any }> = ({ videoRef }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [duration, setDuration] = useState(0);
@@ -19,6 +21,7 @@ export const VideoController: FC<{ videoRef: any }> = ({ videoRef }) => {
     return () => {
       videoRef.current?.removeEventListener("canplay", onCanPlay);
       videoRef.current?.removeEventListener("waiting", onWaiting);
+      videoRef.current.removeEventListener("loadedmetadata", getVideoInfo);
       videoRef.current?.removeEventListener("timeupdate", updatePointer);
     };
   }, [videoRef.current]);
@@ -63,7 +66,7 @@ export const VideoController: FC<{ videoRef: any }> = ({ videoRef }) => {
     setRangeValue(videoRef.current!.currentTime);
   };
   return (
-    <div className="controls">
+    <div>
       <span>
         {videoRef.current
           ? formatTime(videoRef.current?.currentTime)
@@ -76,37 +79,14 @@ export const VideoController: FC<{ videoRef: any }> = ({ videoRef }) => {
         value={rangeValue}
         min="0"
         max={duration}
-        step="1"
+        step="0"
         onChange={onRangeChange}
       ></input>
-      {!isPaused ? (
-        <img
-          onClick={playVideo}
-          src="https://pixsector.com/cache/0d0aeff3/av172da3bd1ea59cc54d8.png"
-          alt=""
-          className={classes.playImg}
-        />
-      ) : (
-        <img
-          src="https://www.freeiconspng.com/uploads/circle-pause-icon-14.png"
-          alt=""
-          onClick={pauseVideo}
-          className={classes.pauseImg}
-        />
-      )}
-      <img
-        onClick={stopVideo}
-        src="https://thumb.silhouette-ac.com/t/6e/6e94aaaaa650e631109fee66a94385fb_t.jpeg"
-        alt=""
-        className={classes.playImg}
+      <ControllerIcons
+        isLoading={isLoading}
+        isPaused={isPaused}
+        actions={{ pauseVideo, stopVideo, playVideo }}
       />
-      {isLoading && (
-        <img
-          src="https://i.gifer.com/ZKZg.gif"
-          alt="loading"
-          className={classes.loadingImg}
-        />
-      )}
     </div>
   );
 };

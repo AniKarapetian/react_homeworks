@@ -6,7 +6,6 @@ export const VideoComponent: FC<VideoProps> = ({ videoRef }) => {
   return (
     <video
       width={400}
-      autoPlay
       height={400}
       ref={videoRef}
       src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
