@@ -3,9 +3,14 @@ import { enemyBoardProvider } from "./enemy-board-provider";
 import { signalingProvider } from "./signaling-provider";
 import { MessageTypes, MessagesEventTypes } from "../../constants/constants";
 import { AnswerMessageModel, AskMessageModel } from "../../types/types";
-
+import store from "../../store/store";
+const user = store.getState().login.user;
 class GameProvider {
   constructor() {
+    signalingProvider.eventEmitter.on(
+      MessagesEventTypes.GAME_OVER,
+      this.onGameOver
+    );
     signalingProvider.eventEmitter.on(MessagesEventTypes.ON_ASK, this.onAsk);
     signalingProvider.eventEmitter.on(
       MessagesEventTypes.ON_ANSWER,
@@ -26,21 +31,33 @@ class GameProvider {
       j,
     });
   }
+  onGameOver = (winner: string) => {
+    alert(`Game is over. ${winner} won!`);
+    this.init();
+  };
 
   private onAsk({ i, j }: AskMessageModel) {
-    console.log("game-provider", "onAsk");
     selfBoardProvider.checkAttack(i, j);
   }
 
-  private onAnswer({ answerType }: AnswerMessageModel) {
-    enemyBoardProvider.setAnswer(answerType);
+  private onAnswer({ answerType, i, j }: AnswerMessageModel) {
+    enemyBoardProvider.setAnswer(answerType, i, j);
   }
 
-  isGameOver(): boolean {
-    return (
-      selfBoardProvider.ships.every((ship) => ship.hits === ship.length) ||
-      enemyBoardProvider.ships.every((ship) => ship.hits === ship.length)
-    );
+  public checkIsGameOver(): boolean {
+    let winner = "";
+    if (enemyBoardProvider.ships.every((ship) => ship.hits === ship.length)) {
+      winner = `${user?.name} ${user?.lastname}`;
+      signalingProvider.sendMessage(MessagesEventTypes.GAME_OVER, winner);
+      return true;
+    }
+    if (selfBoardProvider.ships.every((ship) => ship.hits === ship.length)) {
+      winner = "Enemy";
+      signalingProvider.sendMessage(MessagesEventTypes.GAME_OVER, winner);
+      return true;
+    }
+
+    return false;
   }
 }
 

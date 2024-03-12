@@ -5,49 +5,45 @@ import {
   MessageTypes,
 } from "../../constants/constants";
 import EventEmitter from "../../helpers/EventEmitter";
+import { generateShipCoordinates } from "../../helpers/generateShipCoordinates";
+import store from "../../store/store";
 import { gameProvider } from "./game-provider";
 import { signalingProvider } from "./signaling-provider";
 import { Ship, Coordinate } from "./types";
-
-const carrierCoords = [
-  { row: 0, col: 0 },
-  { row: 1, col: 0 },
-  { row: 2, col: 0 },
-  { row: 3, col: 0 },
-  { row: 4, col: 0 },
-];
-
-const battleshipCoords = [
-  { row: 1, col: 3 },
-  { row: 1, col: 4 },
-  { row: 1, col: 5 },
-  { row: 1, col: 6 },
-];
-
-const submarineCoords = [
-  { row: 4, col: 5 },
-  { row: 4, col: 6 },
-  { row: 4, col: 7 },
-];
-
-const cruiserCoords = [
-  { row: 4, col: 2 },
-  { row: 5, col: 2 },
-  { row: 6, col: 2 },
-];
-
-const destroyerCoords = [
-  { row: 7, col: 6 },
-  { row: 7, col: 7 },
-];
+const userId = store.getState().login.user?.id;
 
 class SelfBoardProvider {
   ships: Ship[] = [
-    { type: "carrier", length: 5, hits: 0, coordinates: carrierCoords },
-    { type: "battleship", length: 4, hits: 0, coordinates: battleshipCoords },
-    { type: "cruiser", length: 3, hits: 0, coordinates: cruiserCoords },
-    { type: "submarine", length: 3, hits: 0, coordinates: submarineCoords },
-    { type: "destroyer", length: 2, hits: 0, coordinates: destroyerCoords },
+    {
+      type: "carrier",
+      length: 5,
+      hits: 0,
+      coordinates: generateShipCoordinates(5),
+    },
+    {
+      type: "battleship",
+      length: 4,
+      hits: 0,
+      coordinates: generateShipCoordinates(4),
+    },
+    {
+      type: "cruiser",
+      length: 3,
+      hits: 0,
+      coordinates: generateShipCoordinates(3),
+    },
+    {
+      type: "submarine",
+      length: 3,
+      hits: 0,
+      coordinates: generateShipCoordinates(3),
+    },
+    {
+      type: "destroyer",
+      length: 2,
+      hits: 0,
+      coordinates: generateShipCoordinates(2),
+    },
   ];
   private board: number[][] = [];
   public eventEmitter: EventEmitter = new EventEmitter();
@@ -64,15 +60,15 @@ class SelfBoardProvider {
   }
 
   public checkAttack(i: number, j: number) {
-    if (gameProvider.isGameOver()) return;
+    if (gameProvider.checkIsGameOver()) return;
     let answerType = AnswerType.MISS;
-
     switch (this.board[i][j]) {
       case BOARD_VALUES.EMPTY:
         answerType = AnswerType.MISS;
         this.board[i][j] = 2;
         break;
       case BOARD_VALUES.SHIP:
+        answerType = AnswerType.HIT;
         this.board[i][j] = 3;
         const hitShip = this.ships.find((ship) =>
           ship.coordinates.some(
@@ -89,20 +85,21 @@ class SelfBoardProvider {
           answerType = AnswerType.HIT;
         }
 
-        gameProvider.isGameOver();
         break;
     }
 
     signalingProvider.sendMessage(MessageTypes.ANSWER, {
-      userId: "user_1",
+      userId: userId!,
       answerType,
+      i,
+      j,
     });
-
     this.render();
+    if (gameProvider.checkIsGameOver()) return;
   }
 
   private render() {
-    this.eventEmitter.emit(BoardEventTypes.ON_UPDATE, this.board);
+    this.eventEmitter.emit(BoardEventTypes.ON_UPDATE, [...this.board]);
   }
 
   placeShips(): void {
@@ -111,7 +108,6 @@ class SelfBoardProvider {
         this.board[coord.row][coord.col] = BOARD_VALUES.SHIP;
       });
     });
-    // this.render();
   }
 }
 

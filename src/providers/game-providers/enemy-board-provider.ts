@@ -4,47 +4,42 @@ import {
   BoardEventTypes,
 } from "../../constants/constants";
 import EventEmitter from "../../helpers/EventEmitter";
-import { Ship, Coordinate } from "./types";
-
-const carrierCoords = [
-  { row: 0, col: 0 },
-  { row: 1, col: 0 },
-  { row: 2, col: 0 },
-  { row: 3, col: 0 },
-  { row: 4, col: 0 },
-];
-
-const battleshipCoords = [
-  { row: 1, col: 3 },
-  { row: 1, col: 4 },
-  { row: 1, col: 5 },
-  { row: 1, col: 6 },
-];
-
-const submarineCoords = [
-  { row: 4, col: 5 },
-  { row: 4, col: 6 },
-  { row: 4, col: 7 },
-];
-
-const cruiserCoords = [
-  { row: 4, col: 2 },
-  { row: 5, col: 2 },
-  { row: 6, col: 2 },
-];
-
-const destroyerCoords = [
-  { row: 7, col: 6 },
-  { row: 7, col: 7 },
-];
+import { generateShipCoordinates } from "../../helpers/generateShipCoordinates";
+import { gameProvider } from "./game-provider";
+import { Ship } from "./types";
 
 class EnemyBoardProvider {
   ships: Ship[] = [
-    { type: "carrier", length: 5, hits: 0, coordinates: carrierCoords },
-    { type: "battleship", length: 4, hits: 0, coordinates: battleshipCoords },
-    { type: "cruiser", length: 3, hits: 0, coordinates: cruiserCoords },
-    { type: "submarine", length: 3, hits: 0, coordinates: submarineCoords },
-    { type: "destroyer", length: 2, hits: 0, coordinates: destroyerCoords },
+    {
+      type: "carrier",
+      length: 5,
+      hits: 0,
+      coordinates: generateShipCoordinates(5),
+    },
+    {
+      type: "battleship",
+      length: 4,
+      hits: 0,
+      coordinates: generateShipCoordinates(4),
+    },
+    {
+      type: "cruiser",
+      length: 3,
+      hits: 0,
+      coordinates: generateShipCoordinates(3),
+    },
+    {
+      type: "submarine",
+      length: 3,
+      hits: 0,
+      coordinates: generateShipCoordinates(3),
+    },
+    {
+      type: "destroyer",
+      length: 2,
+      hits: 0,
+      coordinates: generateShipCoordinates(2),
+    },
   ];
   private board: number[][] = [];
   public eventEmitter: EventEmitter = new EventEmitter();
@@ -60,17 +55,19 @@ class EnemyBoardProvider {
     this.render();
   }
 
-  public setAnswer(answerType: string) {
-    console.log("answerType", answerType);
+  public setAnswer(answerType: string, i: number, j: number) {
+    if (gameProvider.checkIsGameOver()) return;
     switch (answerType) {
-      // TODO: Implement cases
       case AnswerType.MISS: {
+        this.board[i][j] = BOARD_VALUES.MISS;
         break;
       }
       case AnswerType.HIT: {
+        this.board[i][j] = BOARD_VALUES.HIT;
         break;
       }
       case AnswerType.KILL: {
+        this.board[i][j] = BOARD_VALUES.KILL;
         break;
       }
     }
@@ -78,7 +75,7 @@ class EnemyBoardProvider {
   }
 
   private render() {
-    this.eventEmitter.emit(BoardEventTypes.ON_UPDATE, this.board);
+    this.eventEmitter.emit(BoardEventTypes.ON_UPDATE, [...this.board]);
   }
   placeShips(): void {
     this.ships.forEach((ship) => {
@@ -86,7 +83,6 @@ class EnemyBoardProvider {
         this.board[coord.row][coord.col] = BOARD_VALUES.SHIP;
       });
     });
-    // this.render();
   }
 }
 
