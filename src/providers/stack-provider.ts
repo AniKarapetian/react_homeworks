@@ -18,18 +18,39 @@ class Stack<T> {
   }
 
   isEmpty(): boolean {
-    return this.stack.length === 0;
+    const element: any = this.pop();
+    element !== undefined && this.push(element);
+    return element === undefined;
   }
 
   size(): number {
-    return this.stack.length;
+    let elements = [];
+    while (!this.isEmpty()) {
+      elements.push(this.pop());
+    }
+    elements.forEach((el: any) => {
+      this.push(el);
+    });
+    return elements.length;
   }
 
   clear(): void {
-    this.stack = [];
+    let element = null;
+    do {
+      element = this.pop();
+    } while (element !== undefined);
   }
 
   getMax(): any {
-    return;
+    let elements = [];
+    while (!this.isEmpty()) {
+      elements.push(this.pop());
+    }
+    elements.forEach((el: any) => {
+      this.push(el);
+    });
+    return elements.sort((a: any, b: any) => a - b)[elements.length - 1];
   }
 }
+
+export const stack = new Stack<number>();

@@ -14,7 +14,7 @@ const Chess: FC = () => {
     <div>
       <h3>8 Queens puzzle</h3>
       <Button onClick={() => setShowQueens(!showQueens)}>
-        {showQueens ? "Hide" : "Show"} solutions
+        {showQueens ? "Hide" : "Show"} {solutions.length} solutions
       </Button>
       {showQueens &&
         solutions.map((solution: any, index: number) => {
