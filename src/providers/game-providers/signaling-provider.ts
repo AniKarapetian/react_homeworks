@@ -6,7 +6,8 @@ import {
   SOCKET_URL,
 } from "../../constants/constants";
 import { AskMessageModel, AnswerMessageModel } from "../../types/types";
-
+import store from "../../store/store";
+const userId = store.getState().login.user?.id;
 class SignalingProvider {
   private socket: Socket | null = null;
   public eventEmitter: EventEmitter = new EventEmitter();
@@ -17,19 +18,27 @@ class SignalingProvider {
     });
     this.socket.on(MessageTypes.ASK, this.onAsk);
     this.socket.on(MessageTypes.ANSWER, this.onAnswer);
+    this.socket.on(MessagesEventTypes.GAME_OVER, this.onGameOver);
   }
 
   private onAsk = (askData: AskMessageModel) => {
-    console.log("askData", askData);
+    if (askData.userId === userId) return;
     this.eventEmitter.emit(MessagesEventTypes.ON_ASK, askData);
   };
 
   private onAnswer = (answerData: AnswerMessageModel) => {
-    console.log("answerData", answerData);
+    if (answerData.userId === userId) return;
     this.eventEmitter.emit(MessagesEventTypes.ON_ANSWER, answerData);
   };
 
-  public sendMessage(type: string, data: AskMessageModel | AnswerMessageModel) {
+  private onGameOver = (winner: string) => {
+    this.eventEmitter.emit(MessagesEventTypes.GAME_OVER, winner);
+  };
+
+  public sendMessage(
+    type: string,
+    data: AskMessageModel | AnswerMessageModel | string
+  ) {
     if (!this.socket) {
       console.log("Socket is not initialized!");
       return;

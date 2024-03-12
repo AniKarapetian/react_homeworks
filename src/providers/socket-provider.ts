@@ -18,12 +18,10 @@ class SocketProvider {
 
   private onNewMessage(msg: IMessage) {
     store.dispatch(addMessage(msg));
-    console.log("onNewMessage", msg);
   }
 
   private onLoadMessages(list: IMessage[]) {
     store.dispatch(setMessages(list));
-    console.log("onLoadMessages", list);
   }
 
   public disconnect(): void {

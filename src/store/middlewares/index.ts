@@ -1,8 +1,5 @@
-
-export const timeMiddleware = (store: any)=>(next:any)=>(action:any)=>{
-setTimeout(()=>{
-    console.log('middleware is working!');
+export const timeMiddleware = (store: any) => (next: any) => (action: any) => {
+  setTimeout(() => {
     return next(action);
-}, 2000);
-  
-}
+  }, 2000);
+};

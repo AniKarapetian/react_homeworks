@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { BoardEventTypes } from "../../constants/constants";
 import { enemyBoardProvider } from "../../providers/game-providers/enemy-board-provider";
 import { gameProvider } from "../../providers/game-providers/game-provider";
-import { v4 as uuidv4 } from "uuid";
 import Cell from "./cell/Cell";
+import { useSelector } from "react-redux";
+import { userSelector } from "../../store/login/login-selector";
 export const EnemyBoard = () => {
   const [board, setBoard] = React.useState<number[][]>([]);
-
+  const user = useSelector(userSelector);
   useEffect(() => {
     return enemyBoardProvider.eventEmitter.on(
       BoardEventTypes.ON_UPDATE,
@@ -15,7 +16,7 @@ export const EnemyBoard = () => {
   }, []);
 
   const onClickCell = (i: number, j: number): any => {
-    gameProvider.ask(i, j, "1708342082783");
+    gameProvider.ask(i, j, user?.id!);
   };
 
   return (
@@ -26,10 +27,11 @@ export const EnemyBoard = () => {
           {row.map((cell, j) => (
             <Cell
               data={{ x: i, y: j, value: cell }}
-              key={uuidv4()}
+              key={`cell-${i}-${j}`}
               onClick={() => {
                 onClickCell(i, j);
               }}
+              boardType="enemy"
             ></Cell>
           ))}
         </div>

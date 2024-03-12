@@ -1,6 +1,13 @@
 {
   "users": [
-   
+    {
+      "id": "1707407787590",
+      "email": "susan@test.com",
+      "name": "Susan",
+      "lastname": "Doe",
+      "password": "1234",
+      "age": 10
+    },
     {
       "id": "1707407787576",
       "email": "john@test.com",

@@ -61,4 +61,6 @@ export type AskMessageModel = {
 export type AnswerMessageModel = {
   userId: string;
   answerType: string;
+  i: number;
+  j: number;
 };

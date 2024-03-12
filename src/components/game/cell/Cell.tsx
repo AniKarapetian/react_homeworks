@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./cell.module.css";
 
 type CellProps = {
@@ -8,19 +8,30 @@ type CellProps = {
     y: number;
   };
   onClick?: VoidFunction;
+  boardType?: string;
 };
 
 type Style = { [key: string]: string };
 
-const Cell: React.FC<CellProps> = ({ data, onClick }) => {
+const Cell: React.FC<CellProps> = ({ data, onClick, boardType }) => {
+  const [clicked, setClicked] = useState(false);
   const backgroundColors: Style = {
     "0": "white",
-    "1": "blue",
+    "1": boardType === "enemy" ? "white" : "blue",
     "2": "black",
-    "3": "red",
+    "3": "orange",
+    "4": "red",
   };
   const handleClick = () => {
-    onClick && onClick();
+    if (boardType === "enemy") {
+      if (!clicked) {
+        onClick && onClick();
+
+        setClicked(true);
+      }
+    } else {
+      onClick && onClick();
+    }
   };
   return (
     <div

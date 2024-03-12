@@ -25,6 +25,7 @@ export const MessageTypes = {
 export const MessagesEventTypes = {
   ON_ASK: "on_ask",
   ON_ANSWER: "on_answer",
+  GAME_OVER: "game_over",
 };
 
 export const BoardEventTypes = {
@@ -36,6 +37,7 @@ export const BOARD_VALUES = {
   SHIP: 1,
   MISS: 2,
   HIT: 3,
+  KILL: 4,
 };
 
 export const AnswerType = {
